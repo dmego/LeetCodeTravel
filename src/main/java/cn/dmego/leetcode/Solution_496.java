@@ -40,6 +40,8 @@ public class Solution_496 {
 
     /**
      * 解法二： 单调栈优化
+     * 先求出 nums2 中每个元素的下一个更大的值，存放在 Map 中
+     * 因为 nums1 是 nums2 的子集，所以结果直接从 Map 中取就行
      *
      */
     public static int[] nextGreaterElement2(int[] nums1, int[] nums2) {
@@ -58,12 +60,8 @@ public class Solution_496 {
         }
 
         for (int i = 0; i < len1; i++) {
-            if(nextBigMap.containsKey(nums1[i])){
-                res[i] = nextBigMap.get(nums1[i]);
-            }
+            res[i] = nextBigMap.get(nums1[i]);
         }
-
         return res;
-
     }
 }
