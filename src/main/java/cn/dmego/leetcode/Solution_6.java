@@ -39,22 +39,26 @@ public class Solution_6 {
 
 
     public static String convert2(String s, int numRows) {
+        // 只有一行，本身就是满足条件的结果
         if (numRows == 1) return s;
-        List<StringBuilder> rows = new ArrayList<>();
-        for (int i = 0; i < Math.min(numRows, s.length()); i++)
-            rows.add(new StringBuilder());
-        int curRow = 0; // 当前行
-        boolean toUp = false; // 是否开始往上遍历（Z字从下往上折返）
+        List<StringBuffer> list = new ArrayList<>();
+        int len = Math.min(numRows, s.length());
+        // 给 list 初始化
+        for (int i = 0; i < len; i++) list.add(new StringBuffer());
+        boolean goDown = false; // 是否是自底往上遍历
+        int currRow = 0; // 当前行
         for (char c : s.toCharArray()) {
-            rows.get(curRow).append(c);
-            // 到达第 1 行 需要往下折返；到达最后一行，需要往上折返
-            if (curRow == 0 || curRow == numRows - 1) toUp = !toUp;
-            // 根据遍历的方向修改下一行的值，往下折返 curRow++; 往上折返 curRow--;
-            curRow += toUp ? 1 : -1;
+            // 当前行结尾添加元素
+            list.get(currRow).append(c);
+            // 如果到达Z字的转折点，第一行和最后一行）则需要改变遍历的方向
+            if (currRow == 0 || currRow == numRows - 1) goDown = !goDown;
+            // 如果是往下遍历：goDown = true; 下一行就是 currRow + 1;
+            // 如果往上遍历 goDown = false; 下一行就是 currRow - 1
+            currRow += goDown ? 1 : -1;
         }
-        StringBuilder buff = new StringBuilder();
-        for (StringBuilder row : rows) buff.append(row);
-        return buff.toString();
+        StringBuilder result = new StringBuilder();
+        for(StringBuffer buff : list) result.append(buff);
+        return result.toString();
     }
 
     public static void main(String[] args) {

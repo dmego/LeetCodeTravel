@@ -42,19 +42,31 @@ public class Solution_101 {
         return true;
     }
 
-    /**
-    递归解法
-     */
+    /*
+    如何判断两棵树 root1 和 root2 是否对称
+    1.根节点值相等 root1.val = root2.val
+    2.root1的左节点值和root2右节点值相等 root1.left.val = root2.right.val
+    3.root1的右节点值和root2的左节点值相等 root1.right.val = root2.left.val
+    */
     public static boolean isSymmetric2(TreeNode root) {
         if (root == null) return true;
         return dfs(root.left, root.right);
     }
 
-    public static boolean dfs (TreeNode left, TreeNode right) {
+    /**
+     递归判断两棵树是否对称
+     */
+    public static boolean dfs(TreeNode left, TreeNode right) {
+        // 如果两棵树都是 null 返回 true 对称的
         if (left == null && right == null) return true;
-        if (left == null || right == null) return true;
+        // 如果两棵其中只有一棵是 null, 返回 false 肯定是非对称的
+        if (left == null || right == null) return false;
+        // 如果两棵树的 root 节点值不相等，不满足要求 返回 false
         if (left.val != right.val) return false;
-        return dfs(left.left, right.right) && dfs(left.right, right.left);
+        // 根据对称树的特性 递归判断
+        boolean bool1 = dfs(left.left, right.right);
+        boolean bool2 = dfs(left.right, right.left);
+        return bool1 && bool2;
     }
 
 
