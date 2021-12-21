@@ -59,7 +59,7 @@ public class Solution_92 {
         return dummy.next;
     }
 
-    public ListNode reverseNode(ListNode head) {
+    public static ListNode reverseNode(ListNode head) {
         ListNode pre = null;
         while (head != null) {
             ListNode tmp = head.next;
@@ -112,6 +112,57 @@ public class Solution_92 {
             pre.next = next;
         }
         return dummy.next;
+    }
+
+
+    public static ListNode reverseBetween3(ListNode head, int left, int right) {
+        // left - 1; right + 1
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+
+        ListNode curr = head;
+        ListNode leftPre = dummy, rightNext = dummy;
+        ListNode leftH = curr, rigthH = curr;
+        ListNode prev = dummy;
+        int i = 1;
+        while (curr != null) {
+            if (i < left) {
+                prev = prev.next;
+            } else if (i == left) {
+                leftPre = prev;
+                leftH = curr;
+                leftPre.next = null;
+            }
+
+            if (i == right) {
+                rigthH = curr;
+                rightNext = curr.next;
+                rigthH.next = null;
+
+                leftPre.next = reverseNode(leftH);
+                leftH.next = rightNext;
+                break;
+            }
+            curr = curr.next;
+            i++;
+        }
+        return dummy.next;
+    }
+
+    public static void main(String[] args) {
+        ListNode node1 = new ListNode(1);
+        ListNode node2 = new ListNode(2);
+        ListNode node3 = new ListNode(3);
+        ListNode node4 = new ListNode(4);
+        ListNode node5 = new ListNode(5);
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+        node4.next = node5;
+
+        ListNode node = reverseBetween3(node1, 2, 4);
+        System.out.println(node);
+
     }
 
 
