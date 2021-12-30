@@ -1,6 +1,6 @@
 package cn.dmego.leetcode.solution;
 
-import cn.dmego.leetcode.util.TreeNode;
+import cn.dmego.util.TreeNode;
 
 import java.util.LinkedList;
 

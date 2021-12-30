@@ -1,6 +1,6 @@
 package cn.dmego.leetcode.solution;
 
-import cn.dmego.leetcode.util.ListNode;
+import cn.dmego.util.ListNode;
 
 import java.util.ArrayList;
 import java.util.List;

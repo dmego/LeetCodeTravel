@@ -1,4 +1,4 @@
-package cn.dmego.leetcode.util;
+package cn.dmego.util;
 
 /**
  * @author dmego

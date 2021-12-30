@@ -1,6 +1,6 @@
 package cn.dmego.leetcode.hot100.medium;
 
-import cn.dmego.leetcode.util.ListNode;
+import cn.dmego.util.ListNode;
 
 /**
  * 两数相加

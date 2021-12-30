@@ -1,6 +1,6 @@
 package cn.dmego.leetcode.solution;
 
-import cn.dmego.leetcode.util.ListNode;
+import cn.dmego.util.ListNode;
 
 /**
  给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
