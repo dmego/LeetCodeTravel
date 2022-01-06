@@ -1,4 +1,4 @@
-package cn.dmego.leetcode.hot100.medium;
+package cn.dmego.leetcode.codetop.medium;
 
 import cn.dmego.util.ListNode;
 

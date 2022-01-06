@@ -1,9 +1,10 @@
-package cn.dmego.leetcode.hot100.medium;
+package cn.dmego.leetcode.codetop.medium;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 无重复字符最长子串
  * @author dmego
  * @date 2021/12/30 23:48
  */

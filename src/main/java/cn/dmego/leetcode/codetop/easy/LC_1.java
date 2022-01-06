@@ -1,4 +1,4 @@
-package cn.dmego.leetcode.hot100.easy;
+package cn.dmego.leetcode.codetop.easy;
 
 import java.util.Arrays;
 import java.util.HashMap;
