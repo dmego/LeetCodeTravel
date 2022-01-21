@@ -35,9 +35,9 @@ public class Solution_124 {
     public int dfs(TreeNode root) {
         // 空节点的最大贡献值为 0
         if (root == null) return 0;
-        // 递归求 root.left 节点能给 root 节点提供的最大贡献值, 如果返回值 < 0, 那么最大贡献值为 0
+        // 递归求 root.left 节点能给 root 节点提供的最大贡献值, 如果返回值 < 0, 那么最大贡献值为 0, 也就是路径不过root的左节点
         int left = Math.max(dfs(root.left), 0);
-        // 递归求 root.right 节点能给 root 节点提供的最大贡献值，如果返回值 < 0, 那么最大贡献值为 0
+        // 递归求 root.right 节点能给 root 节点提供的最大贡献值，如果返回值 < 0, 那么最大贡献值为 0, 也就是路径不过root的右节点
         int right = Math.max(dfs(root.right), 0);
         // sum 表示以 root 节点为根的最大路径和
         int sum = root.val + left + right;
