@@ -13,17 +13,19 @@ public class LC_143 {
         if (head == null || head.next == null) return;
         ListNode middle = findMiddle(head);
         ListNode head2 = reverse(middle);
-        mergeNode(head, head2);
+        merge(head, head2);
     }
-
-    // 找到中间节点，并从中间切断
+    // 找中间节点
     public ListNode findMiddle(ListNode head) {
         // 快慢指针
         ListNode slow = head, fast = head;
         while (fast != null && fast.next != null) {
             fast = fast.next.next;
+            // tmp 记录 slow 的上一个节点
             ListNode tmp = slow.next;
+            // 当 fast 到达链表结尾时
             if (fast == null || fast.next == null) {
+                // 截断链表
                 slow.next = null;
             }
             slow = tmp;
@@ -31,17 +33,20 @@ public class LC_143 {
         return slow;
     }
 
-    // 反转链表
+    // 反转
     public ListNode reverse(ListNode head) {
-        if (head == null || head.next == null) return head;
-        ListNode root = reverse(head.next);
-        head.next.next = head;
-        head.next = null;
-        return root;
+        ListNode tmp = null;
+        while (head != null) {
+            ListNode next = head.next;
+            head.next = tmp;
+            tmp = head;
+            head = next;
+        }
+        return tmp;
     }
 
-    // 合并两个链表，先取 head1, 再取 head2
-    public void mergeNode(ListNode head1, ListNode head2) {
+    // 合并
+    public void merge(ListNode head1, ListNode head2) {
         ListNode next;
         while (head1 != null) {
             next = head1.next;
