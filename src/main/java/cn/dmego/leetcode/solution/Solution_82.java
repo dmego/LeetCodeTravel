@@ -25,16 +25,23 @@ public class Solution_82 {
         ListNode dummy = new ListNode(-1, head);
         ListNode prev = dummy;
         while (head != null && head.next != null) {
+            // 如果 head.val != head.next.val, 说明 head 不是重复元素
             if (head.val != head.next.val) {
+                // prev 和 head 节点都往前移动
                 prev = prev.next;
                 head = head.next;
             } else {
+                // 如果 head.val == head.next.val 说明 head 与 head.next 都是重复元素，需要删除
                 ListNode move = head.next;
+                // 因为链表是排序的，为了找到更多与 head.val 重复元素，继续遍历链表
                 while (move != null && head.val == move.val) {
                     move = move.next;
                 }
+                // 结束循环时，move 是和 head 不相同的节点
+                // [head, move) 之间的元素是重复的，prev.next = move 是将重复元素删除
                 prev.next = move;
-                head = prev.next;
+                // 将 head 执行 move, 也就是不重复的元素
+                head = move;
             }
         }
         return dummy.next;
@@ -42,8 +49,14 @@ public class Solution_82 {
 
     /**
      递归解法:
-     递归函数用来删除以 head 为头结点的链表中的重复元素
-
+     递归函数：删除以 head 为头结点的链表中的重复元素
+     递归结束条件: head == null || head.next == null, 链表中不包含重复元素，return head;
+     如果 head.val != head.next.val, 说明 head 一定不是重复元素， head 需要保留
+        head.next 指向剩下的不重复元素，也就是 head.next = deleteDuplicates(head.next);
+        返回 head 也就是不重复元素链表的头结点
+     如果 head.val == head.next.val，说明 head 与 head.next 是重复元素，
+        我们还需要遍历找到更多与 head.val 相同的元素, 直到找到一个域 head.val 不同的元素 move
+        最后返回 deleteDuplicates(move), 其结果就是不重复元素的头节点
      */
     public ListNode deleteDuplicates(ListNode head) {
         if (head == null || head.next == null) return head;
