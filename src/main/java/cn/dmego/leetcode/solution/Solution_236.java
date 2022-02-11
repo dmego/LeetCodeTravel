@@ -11,7 +11,7 @@ public class Solution_236 {
 
     /**
      什么是祖先：若节点 p 在 root 节点的左(右)子树中，或者 p == root, 则称 root 是 p 的祖先
-     什么是最近公共祖先：若 root 节点同时是p, q 的祖先, 并且 root.left 和 root.right 不满足同时是 p,q 的祖先
+     什么是最近公共祖先：若 root 节点同时是p, q 的祖先, 并且 root.left 或者 root.right 不满足同时是 p,q 的祖先
         则root是p, q 的最近公共祖先。
 
      root 满足的最近公共祖先的条件：
