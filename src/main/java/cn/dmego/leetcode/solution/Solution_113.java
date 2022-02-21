@@ -36,4 +36,29 @@ public class Solution_113 {
         dfs(root, 0, targetSum);
         return result;
     }
+
+    /**
+     * 解法二：list 作为参数
+     */
+    List<List<Integer>> result2 = new ArrayList<>();
+    public void dfs(TreeNode root, LinkedList<Integer> list, int sum, int targetSum) {
+        if (root == null) return;
+        list.addLast(root.val);
+        sum += root.val;
+        if (root.left == null && root.right == null) {
+            if (sum == targetSum) {
+                result2.add(new ArrayList<>(list));
+            }
+        }
+        dfs(root.left, list, sum, targetSum);
+        dfs(root.right, list, sum, targetSum);
+        list.removeLast();
+    }
+
+    public List<List<Integer>> pathSum2(TreeNode root, int targetSum) {
+        if (root == null) return result2;
+        dfs(root, new LinkedList<>(), 0, targetSum);
+        return result2;
+    }
+
 }
