@@ -80,7 +80,8 @@ public class Solution_145 {
             }
             root = deque.pop();
             // 如果 root.right == null 或者 root.right 被访问过了
-            // 上面循环下来，root.left = null, 如果 root.right = null 则说明 root 是叶子节点
+            // 上面循环下来，root.left = null, 如果 root.right = null 则说明 root 是叶子节点, 需要遍历
+            // root.right == pre 时，说明 root的右节点被遍历到了，按照 左右根的顺序，root 节点该被遍历了
             if (root.right == null || root.right == pre) {
                 // 将 root 加入到结果集
                 result.add(root.val);
