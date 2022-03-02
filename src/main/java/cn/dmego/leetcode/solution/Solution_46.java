@@ -12,8 +12,6 @@ import java.util.List;
  */
 public class Solution_46 {
 
-
-
     // 结果
     List<List<Integer>> result = new ArrayList<>();
     // 记录一组结果
