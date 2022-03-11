@@ -12,7 +12,7 @@ public class BM34 {
     public boolean isValidBST (TreeNode root) {
         // write code here
         if (root == null) return true;
-        return dfs(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return dfs(root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
     /**
@@ -21,9 +21,9 @@ public class BM34 {
      递归判断 root.left, 并缩小区间右边界 MAX = root.val
      递归判断 root.right 并缩小区间左边界 MIN = root.val
      */
-    public boolean dfs(TreeNode root, int min, int max) {
+    public boolean dfs(TreeNode root, long min, long max) {
         if (root == null) return true;
-        if (root.val < min || root.val > max) return false;
+        if (root.val <= min || root.val >= max) return false;
         return dfs(root.left, min, root.val) && dfs(root.right, root.val, max);
     }
 
@@ -40,6 +40,13 @@ public class BM34 {
         else pre = root.val; // 更新前一个节点值
         boolean right = isValidBST2(root.right);
         return left && right;
+    }
+
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(2, new TreeNode(2), new TreeNode(2));
+        BM34 bm = new BM34();
+        boolean validBST = bm.isValidBST(root);
+        System.out.println(validBST);
     }
 
 }
