@@ -39,6 +39,25 @@ public class Solution_56 {
         return result.toArray(new int[result.size()][]);
     }
 
+    public int[][] merge2(int[][] intervals) {
+        List<int[]> result = new ArrayList<>();
+        Arrays.sort(intervals, Comparator.comparingInt(o->o[0]));
+        int[] inter = intervals[0];
+        for (int i = 1; i < intervals.length; i++) {
+            int[] curr = intervals[i];
+            if (curr[0] > inter[1]) {
+                result.add(inter);
+                inter = curr;
+            } else {
+                if (curr[1] >= inter[1]) {
+                    inter[1] = curr[1];
+                }
+            }
+        }
+        result.add(inter);
+        return result.toArray(new int[result.size()][]);
+    }
+
     public static void main(String[] args) {
         int[][] intervals = new int[][]{{1,4},{2,3}};
         Solution_56 s = new Solution_56();
