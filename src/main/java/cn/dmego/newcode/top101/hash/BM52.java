@@ -27,6 +27,31 @@ public class BM52 {
         return res;
     }
 
+    /**
+
+
+     */
+    public int[] FindNumsAppearOnce2 (int[] array) {
+        int xor = 0;
+        // 先将所有的数进行异或运算，得到的结果是 xor = a ^ b
+        for (int i = 0; i < array.length; i++) {
+            xor ^= array[i];
+        }
+        // 找到 a 与 b 二进制从右开始第一个值不相同的位置
+        int mask = xor - (xor & (xor - 1));
+        // 以 mask 将 array 分为两组
+        int a = 0, b = 0;
+        for (int i = 0; i < array.length; i++) {
+            // 将 array 分为两组 (每组做异或运算)
+            if ((array[i] & mask) == 0) {
+                a ^= array[i];
+            } else {
+                b ^= array[i];
+            }
+        }
+        return a < b ? new int[]{a, b} : new int[]{b, a};
+    }
+
     public static void main(String[] args) {
         int[] array = new int[]{1,4,1,5};
         BM52 bm = new BM52();
