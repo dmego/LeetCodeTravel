@@ -23,12 +23,13 @@ public class Solution_297 {
     }
 
     public void serializeHelper(TreeNode root, StringBuilder buff) {
-        if (root == null) buff.append("#,");
-        else {
-            buff.append(root.val).append(",");
-            serializeHelper(root.left, buff);
-            serializeHelper(root.right, buff);
+        if (root == null) {
+            buff.append("#,");
+            return;
         }
+        buff.append(root.val).append(",");
+        serializeHelper(root.left, buff);
+        serializeHelper(root.right, buff);
     }
 
     // Decodes your encoded data to tree.
