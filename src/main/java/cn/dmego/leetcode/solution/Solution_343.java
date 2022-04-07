@@ -18,15 +18,15 @@ public class Solution_343 {
      初始化：
      n >= 2; 因为 0 和 1 是无法拆分的，dp[2] = 1 * 1 = 1; 求 dp[3] 时也只需和 dp[2] 有关
      遍历方向：
-     双层 for 循环，第一层 2 ~ n, 第二层 1 ~ i
+     双层 for 循环，第一层 3 ~ n, 第二层 1 ~ i
 
      */
     public int integerBreak(int n) {
         if (n == 2) return 1;
         int[] dp = new int[n + 1];
         dp[2] = 1;
-        for (int i = 2; i <= n; i++) {
-            for (int j = 1; j <= i; j++) {
+        for (int i = 3; i <= n; i++) {
+            for (int j = 1; j < i; j++) {
                 dp[i] = Math.max(Math.max(dp[i], j * (i - j)), j * dp[i - j]);
             }
         }
