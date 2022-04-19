@@ -38,9 +38,9 @@ public class Solution_337 {
         // 递归遍历右节点
         int[] right = dfsRob(root.right);
         int[] dp = new int[2];
-        // 偷当前节点
+        // 偷当前节点，left 和 right 节点就一定不能偷
         dp[0] = root.val + left[1] + right[1];
-        // 不偷当前节点
+        // 不偷当前节点，left 和 right 就可以偷，但是要取偷和不偷的最大值
         dp[1] = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
         return dp;
     }
