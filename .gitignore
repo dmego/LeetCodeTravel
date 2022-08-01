@@ -37,6 +37,7 @@ build/
 
 ### VS Code ###
 .vscode/
+.fleet/
 
 ### macOS ###
 .DS_Store

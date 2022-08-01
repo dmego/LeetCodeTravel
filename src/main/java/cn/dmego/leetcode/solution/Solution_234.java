@@ -82,4 +82,15 @@ public class Solution_234 {
         }
         return pre;
     }
+
+    public static void main(String[] args) {
+        ListNode head = new ListNode(1);
+        ListNode node2 = new ListNode(2);
+        head.next = node2;
+
+        Solution_234 s = new Solution_234();
+        boolean res = s.isPalindrome2(head);
+        System.out.println(res);
+
+    }
 }

@@ -37,4 +37,21 @@ public class Solution_328 {
         odd.next = evenHead;
         return oddHead;
     }
+
+    public ListNode oddEvenList2(ListNode head) {
+        if (head == null || head.next == null)
+            return head;
+        ListNode head1 = head, head2 = head.next;
+        ListNode node1 = head1, node2 = head2;
+        int item = 1;
+        while (node1.next != null && node2.next != null) {
+            node1.next = node2.next;
+            node1 = node1.next;
+            node2.next = node1.next;
+            node2 = node2.next;
+        }
+        node1.next = head2;
+        node2.next = null;
+        return head1;
+    }
 }
