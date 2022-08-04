@@ -55,10 +55,10 @@ public class Solution_82 {
         head.next 指向剩下的不重复元素，也就是 head.next = deleteDuplicates(head.next);
         返回 head 也就是不重复元素链表的头结点
      如果 head.val == head.next.val，说明 head 与 head.next 是重复元素，
-        我们还需要遍历找到更多与 head.val 相同的元素, 直到找到一个域 head.val 不同的元素 move
+        我们还需要遍历找到更多与 head.val 相同的元素, 直到找到一个与 head.val 不同的元素 move
         最后返回 deleteDuplicates(move), 其结果就是不重复元素的头节点
      */
-    public ListNode deleteDuplicates(ListNode head) {
+     public ListNode deleteDuplicates(ListNode head) {
         if (head == null || head.next == null) return head;
         // 如果 head.val != head.next.val 说明 head 节点不是重复节点
         // deleteDuplicates(head.next) 递归调用删除以 head.next 为头结点的链表中的重复元素
