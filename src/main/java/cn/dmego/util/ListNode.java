@@ -15,20 +15,21 @@ public class ListNode {
     public String toString() {
        StringBuilder buffer = new StringBuilder();
        buffer.append(val).append("->");
-       while (next != null) {
-           buffer.append(next.val).append("->");
-           next = next.next;
+       ListNode curr = next;
+       while (curr != null) {
+           buffer.append(curr.val).append("->");
+           curr = curr.next;
        }
        return buffer.toString();
     }
 
     public static ListNode getByArray(int[] array){
-        ListNode head = new ListNode(array[0]);
-        ListNode root = head;
-        for (int i = 1; i < array.length; i++) {
-            root.next = new ListNode(array[i]);
+        ListNode dummy = new ListNode(0);
+        ListNode root = dummy;
+        for (int i : array) {
+            root.next = new ListNode(i);
             root = root.next;
         }
-        return head;
+        return dummy.next;
     }
 }
