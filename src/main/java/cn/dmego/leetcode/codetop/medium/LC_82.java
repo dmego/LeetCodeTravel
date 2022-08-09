@@ -1,6 +1,5 @@
 package cn.dmego.leetcode.codetop.medium;
 
-import cn.dmego.leetcode.solution.Solution_82;
 import cn.dmego.util.ListNode;
 
 /**
@@ -37,7 +36,7 @@ public class LC_82 {
         node3.next = node4;
         node4.next = node41;
         node41.next = node5;
-        Solution_82 s = new Solution_82();
+        LC_82 s = new LC_82();
         s.deleteDuplicates(head);
         while (head != null) {
             System.out.print(head.val + "->");
