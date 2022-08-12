@@ -9,6 +9,7 @@ public class Solution_154 {
 
     /**
       相比于 153 题， 需要考虑重复元素
+      如何去重，当遇到重复元素时，一个一个跳过
      */
     public int findMin(int[] nums) {
         int n = nums.length;

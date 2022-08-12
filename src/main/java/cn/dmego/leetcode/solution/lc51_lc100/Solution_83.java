@@ -27,4 +27,23 @@ public class Solution_83 {
         // 直接返回头结点
         return head;
     }
+
+    /*
+       82 题递归解法
+     */
+    public ListNode deleteDuplicates2(ListNode head) {
+        if (head == null || head.next == null)
+            return head;
+        if (head.val != head.next.val) {
+            head.next = deleteDuplicates(head.next);
+            return head;
+        } else {
+            ListNode move = head.next;
+            while (move.next != null && move.next.val == head.val) {
+                move = move.next;
+            }
+            // 最后 move 是保留的一个重复元素
+            return deleteDuplicates(move);
+        }
+    }
 }

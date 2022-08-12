@@ -14,8 +14,8 @@ public class Solution_153 {
      所以求最小值也就是求旋转点
 
      二分查找会将区间分为三部分 left mid right
-     1. 如果 mid > right 最小值一定在右区间 left = mid + 1
-     2. 如果 mid < right 最小值一定在左区间 right = mid
+     1. 如果 nums[mid] > nums[right] 最小值一定在右区间 left = mid + 1
+     2. 如果 nums[mid] < nums[right] 最小值一定在左区间 right = mid
 
      */
     public int findMin(int[] nums) {
