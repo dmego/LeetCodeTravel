@@ -11,6 +11,8 @@ import java.util.List;
  *
  * 给你二叉树的根节点 root 和一个整数目标和 targetSum ，找出所有 从根节点到叶子节点 路径总和等于给定目标和的路径。
  *
+ * 注意：路径是有方向的
+ *
  * @author dmego
  * @date 2022/02/14 12:09
  */
@@ -49,6 +51,8 @@ public class Solution_113 {
             if (sum == targetSum) {
                 result2.add(new ArrayList<>(list));
             }
+            list.removeLast();
+            return;
         }
         dfs(root.left, list, sum, targetSum);
         dfs(root.right, list, sum, targetSum);
@@ -59,6 +63,17 @@ public class Solution_113 {
         if (root == null) return result2;
         dfs(root, new LinkedList<>(), 0, targetSum);
         return result2;
+    }
+
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(1);
+        TreeNode left = new TreeNode(2);
+        TreeNode right = new TreeNode(3);
+        root.left = left;
+        root.right = right;
+        Solution_113 s = new Solution_113();
+        List<List<Integer>> b = s.pathSum2(root, 3);
+        System.out.println(b);
     }
 
 }
