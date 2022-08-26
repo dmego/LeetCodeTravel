@@ -47,6 +47,29 @@ public class Solution_105 {
         return root;
     }
 
+
+
+    /*
+      index 表示前序遍历数组的下标指针
+     */
+    int index = 0;
+    public TreeNode buildTree2(int[] preorder, int[] inorder) {
+        for (int i = 0; i < inorder.length; i++) {
+            inorderCache.put(inorder[i], i);
+        }
+        return dfs(preorder, inorder, 0, inorder.length - 1);
+    }
+
+    public TreeNode dfs(int[] preorder, int[] inorder, int start, int end) {
+        if (start > end || index >= preorder.length)
+            return null;
+        TreeNode root = new TreeNode(preorder[index]);
+        index++;
+        root.left = dfs(preorder, inorder, start, inorderCache.get(root.val) - 1);
+        root.right = dfs(preorder, inorder, inorderCache.get(root.val) + 1, end);
+        return root;
+    }
+
     public static void main(String[] args) {
         int[] preorder = new int[]{3,9,20,15,7};
         int[] inorder = new int[]{9,3,15,20,7};
