@@ -37,7 +37,7 @@ public class Solution_239 {
        对于 长度为 len 的数组， 大小为 k 的窗口从左到右可以滑动次：len - k + 1;
      2.题目要求：要求每个窗口(窗口每向右滑动一次)内元素的最大值。
        单调队列介绍：在程序运行的过程中，我们需要维持队列内部元素的单调性(单调递增或递减)
-       为了降低每滑动一次 寻找窗口内 元素最大值，我们可以采用单调队列来做：
+       为了降低每滑动一次 寻找窗口内 元素最大值的时间复杂度，我们可以采用单调队列来做：
         2.1 定义一个 Deque 双端队列，
             定义滑动窗口的左边界 left 右边界 right，开始时 left = right = 0
             定义结果数组，res[] = new int[len - k +1]
@@ -54,36 +54,65 @@ public class Solution_239 {
      */
     public static int[] maxSlidingWindow2(int[] nums, int k) {
         int len = nums.length;
-        // 结果数组（窗口个数 len - k + 1)
-        int[] res = new int[len - k + 1];
-        Deque<Integer> deque = new LinkedList<>();
+        // 定义结果数组，大小就是窗口要移动的次数
+        int res[] = new int[len - k + 1];
         int left = 0;
+        Deque<Integer> deque = new ArrayDeque<>();
         for (int right = 0; right < len; right++) {
-            // 如果队列不为空，且队尾元素小于 nums[right]
-            while (!deque.isEmpty() && nums[deque.peekLast()] < nums[right]) {
-                deque.removeLast();
-            }
-            // 队列为空或当前nums[right] <= 小于新的队尾元素
-            deque.addLast(right);
-            // 当 right >= k - 1 时  说明窗口形成
-            if (right >= k - 1) {
-                // 判断队首元素下标是否 < left, 是说明队首不在窗口内，移除队首
-                if (deque.peekFirst() < left) {
-                    deque.removeFirst();
+            // 队列为空 或者队尾元素大于当前要入队的元素，元素入队尾
+            if (deque.isEmpty() || nums[deque.peekLast()] >= nums[right]) {
+                deque.addLast(right);
+            } else {
+                // 队尾元素小于当前要入队的元素时，循环出队尾，指定队尾元素大于等于当前要入队的元素
+                while (!deque.isEmpty() && nums[deque.peekLast()] < nums[right]) {
+                    deque.pollLast();
                 }
-                // 否则下一个新队首一定在窗口内(因为每次只滑动一个距离)
-                // 新队首就是窗口最大值
-                res[left] = nums[deque.getFirst()];
-                left++; // 左指针右移
+                // 将当前要入队的元素入队尾
+                deque.addLast(right);
+            }
+            // 当窗口形成时 (例如 k = 3, right [0, 1, 2], right = 2 时，窗口形成)
+            if (right >= k - 1) {
+                // 判断单调队列队头的元素下标是否 >= left, 也就是在窗口内，不是则循环出队头
+                while (!deque.isEmpty() && deque.peekFirst() < left) {
+                    deque.pollFirst();
+                }
+                // 队头的元素就是当前窗口的最大值，加入到结果集中
+                res[left] = nums[deque.peekFirst()];
+                // 窗口左边界移动， right++ 时，窗口右边界移动
+                left++;
+            }
+        }
+        return res;
+    }
+
+    /**
+     解法三: 优先队列：大顶堆
+
+     */
+    public static int[] maxSlidingWindow3(int[] nums, int k) {
+        int len = nums.length;
+        int res[] = new int[len - k + 1];
+        int left = 0;
+        // 大顶堆，堆顶是最大值
+        PriorityQueue<Integer> queue = new PriorityQueue<>((o1, o2)-> o2 - o1);
+        for (int right = 0; right < len; right++) {
+            queue.add(nums[right]);
+            if (right >= k - 1) {
+                if (left > 0) {
+                    queue.remove(nums[left - 1]);
+                }
+                res[left] = queue.peek();
+                left++;
             }
         }
         return res;
     }
 
 
+
     public static void main(String[] args) {
         int[] nums = {1,3,-1,-3,5,3,6,7};
-        int[] res = maxSlidingWindow2(nums, 3);
+        int[] res = maxSlidingWindow3(nums, 3);
         Arrays.stream(res).forEach(System.out::print);
     }
     
