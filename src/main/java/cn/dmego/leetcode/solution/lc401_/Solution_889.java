@@ -40,6 +40,7 @@ public class Solution_889 {
         TreeNode root = new TreeNode(preorder[pl]);
         // 只有一个节点时，直接返回
         if (pl == pr) return root;
+        // L 表示左子树的长度，左子树的第一个节点在前序遍历的下标是 pl + 1
         int L = postCache.get(preorder[pl + 1]) - ol + 1;
         root.left = dfs(preorder, pl + 1, pl + L, ol, ol + L - 1);
         root.right = dfs(preorder, pl + L + 1, pr, ol + L, or - 1);
