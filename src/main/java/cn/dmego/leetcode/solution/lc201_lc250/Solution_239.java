@@ -87,7 +87,7 @@ public class Solution_239 {
 
     /**
      解法三: 优先队列：大顶堆
-
+     注意：leetCode 不能通过
      */
     public static int[] maxSlidingWindow3(int[] nums, int k) {
         int len = nums.length;
