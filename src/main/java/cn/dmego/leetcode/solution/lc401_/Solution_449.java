@@ -7,7 +7,7 @@ import cn.dmego.util.TreeNode;
  */
 public class Solution_449 {
 
-    // 利用前序遍历序列化二叉搜索树，以逗号，分割，如果以逗号隔开的话，不能知道每个节点的具体值
+    // 利用前序遍历序列化二叉搜索树，以逗号分割。
     public String serialize(TreeNode root) {
         if (root == null) return null;
         StringBuffer buff = new StringBuffer();
@@ -34,20 +34,23 @@ public class Solution_449 {
 
     // 利用二叉搜索树的特定：left.val < root.val < right.val
     public TreeNode buildTree(String[] vals, int min, int max) {
-        // 遍历到了数组最后，推出构建二叉树
-        if (point >= vals.length) return null;
+        // 遍历到了数组最后，退出构建二叉树
+        if (min > max || point >= vals.length) return null;
         int val = Integer.parseInt(vals[point]);
+
         // 如果当前节点的值不在当前 [min, max] 范围内，不添加当前节点
+        // 保证了不会一直构造同一侧，左子树构建完之后，就会构建右子树
         if (val < min || val > max) {
             return null;
         }
-        // 构建单前节点
-        TreeNode root = new TreeNode(val);
         // 指针往后移动一位
         point++;
-        // 构建左子树，左子树上的所有节点值 < root.val
+        // 按照前序逻辑构建当前节点
+        TreeNode root = new TreeNode(val);
+
+        // 先构建左子树，左子树上的所有节点值 < root.val
         root.left = buildTree(vals, min, root.val);
-        // 构建右子树，右子树上所有节点值 > root.val
+        // 后构建右子树，右子树上所有节点值 > root.val
         root.right = buildTree(vals, root.val, max);
         return root;
     }
