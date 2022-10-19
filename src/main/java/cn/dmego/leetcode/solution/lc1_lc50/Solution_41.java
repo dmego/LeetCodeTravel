@@ -45,6 +45,7 @@ public class Solution_41 {
             if (nums[i] == cur) cur++;
             else return cur;
         }
+        // 循环结束后, cur 的值就是 nums.length + 1
         return cur;
     }
 
@@ -55,7 +56,11 @@ public class Solution_41 {
      我们可以采用原地挪动的方法：将值等于 i（i > = 1） 的元素移动到 下标是 i - 1 的位置
      然后我们遍历 nums, 如果 nums[i] != i + 1, 那么 i 就是最小的正数
 
-     为什么 是 while 循环 而不是 if， 举例：
+     为什么 是 while 循环 而不是 if，
+     因为是做 swap 交换，当把 nums[i] 与 nums[nums[i] - 1] 值进行交换后，nums[nums[i] - 1] 的值不一定在正确位置
+     也就是说 nums[nums[i] - 1] 不一定等于 i + 1, 在当前位置(i 不变) 继续做交换
+
+     举例：
      [3,1,4,2] 经过一次交换后变成了 [4,1,3,2] 此时 i = 0, 位置元素 4 不在其应该在的位置
      如果我们是 if, 就会执行 i++, 4 这个元素将不会被处理
      如果我们是 while 循环，条件继续成立，[4,1,3,2] 经过交换后变成 [2,1,3,4]，继续交换变成 [1,2,3,4]
@@ -64,9 +69,10 @@ public class Solution_41 {
     public int firstMissingPositive3(int[] nums) {
         int n = nums.length;
         for (int i = 0; i < n; i++) {
-            // nums[i] >= 1 && nums[i] <= n 这个条件是保证元素范围在 [1, n] 之间
-            // nums[i] != i + 1 这个是过滤那些元素在正确下标的元素
-            // nums[nums[i] - 1] != nums[i] 下标 nums[i] - 1 与 i 位置元素相同，不必进行交换
+            // 需要做交换的条件：
+            // 1 <= nums[i] && nums[i] <= n 这个条件是保证元素范围在 [1, n] 之间
+            // nums[i] - 1 != i： 当 i = nums[i] - 1时，表示需要交换的两个数下标相同，不用交换了
+            // nums[nums[i] - 1] != nums[i]： 当下标 nums[i] - 1 与 i 位置元素相同时，交换无意义，也不必进行交换了
             while (nums[i] >= 1 && nums[i] <= n && nums[i] != i + 1 && nums[nums[i] - 1] != nums[i]) {
                 swap(nums, nums[i] - 1, i);
             }
@@ -87,7 +93,7 @@ public class Solution_41 {
     }
 
     public static void main(String[] args) {
-        int[] array = new int[]{1};
+        int[] array = new int[]{3,4,-1,1};
         Solution_41 s = new Solution_41();
         int i = s.firstMissingPositive3(array);
         System.out.println(i);
