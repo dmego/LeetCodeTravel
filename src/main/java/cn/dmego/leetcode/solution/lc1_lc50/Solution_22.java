@@ -32,24 +32,44 @@ public class Solution_22 {
      因为在遍历过程中满足条件的只有两种情况：
         1. 左括号 和 右括号相等 (())
         2. 左括号 大于 右括号数 (())(
-     */
 
+     n 代表生成的括号对数，那么就表示左括号 ( 有 n 个，右括号 ) 有 n 个
+     采用回溯法，一开始括号的字符串为 "", 包含左括号数为 left = 0， 右括号数为 right = 0；
+        1. 当 left <= n 时，可以添加 左括号 (
+         2. 仅 left > right 时，才可以添加 右括号 )
+     */
     List<String> result = new ArrayList<>();
     public List<String> generateParenthesis(int n) {
-        if (n == 0) return result;
-        // left right 表示左括号，右括号数量
-        dfs("", n * 2, 0,0);
+        if (n == 0)
+            return result;
+        dfs("", 0, 0, n);
         return result;
     }
 
-    public void dfs (String paths, int len, int left, int right) {
-        if (left > len / 2 || right > left) return;
-        if (paths.length() == len) {
-            result.add(paths);
+    /**
+     *
+     * @param str 当前生产的括号字符串
+     * @param left 左括号用了几个
+     * @param right 右括号用了几个
+     * @param n 生成的括号对数，也是左或右括号需要用几个
+     */
+    public void dfs(String str, int left, int right, int n) {
+        // 当左右括号都用完之后，将结果 str 添加到结果集中
+        if (left == n && right == n) {
+            result.add(str);
             return;
         }
-        dfs(paths + "(", len, left + 1, right);
-        dfs(paths + ")", len, left, right + 1);
+        // 当左括号使用树小于右括号使用树时，需要进行剪枝，因为最后右括号数会多，生成的括号对无效
+        if (left < right)
+            return;
+        // 当使用的左括号数小于n时，括号字符串添加左括号 (, 增加left的值，进行递归
+        if (left < n) {
+            dfs(str + "(", left + 1, right, n);
+        }
+        // 当使用的右括号数小于n时，括号字符串添加右括号 ), 增加right的值，进行递归
+        if (right < n) {
+            dfs(str + ")", left, right + 1, n);
+        }
     }
 
     public static void main(String[] args) {
