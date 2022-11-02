@@ -72,6 +72,37 @@ public class Solution_22 {
         }
     }
 
+    // 解法二：做减法
+    public List<String> generateParenthesis2(int n) {
+        if (n == 0)
+            return result;
+        dfs("", n, n);
+        return result;
+    }
+
+    /**
+     *
+     * @param str
+     * @param left 左括号剩余数
+     * @param right 右括号剩余数
+     */
+    public void dfs(String str, int left, int right) {
+        if (left == 0 && right == 0) {
+            result.add(str);
+            return;
+        }
+        // 左括号剩余数 > 右括号剩余数，说明右括号多了，剪枝
+        if (left > right) {
+            return;
+        }
+        if (left >= 0) {
+            dfs(str + "(", left - 1, right);
+        }
+        if (right >= 0) {
+            dfs(str + ")", left, right - 1);
+        }
+    }
+
     public static void main(String[] args) {
         Solution_22 s = new Solution_22();
         List<String> strings = s.generateParenthesis(3);
