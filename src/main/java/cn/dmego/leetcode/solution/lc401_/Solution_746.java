@@ -23,7 +23,7 @@ public class Solution_746 {
         dp[1] = cost[1] (从 1 开始往上爬 1 阶到楼顶，花费 cost[1])
 
      状态转移方程：dp[i] = min(dp[i-1], dp[i-2]) + cost[i]
-        解释：min(dp[i - 1], dp[i - 2]) 表示跳到 i 台阶的最小花费，因为调到 i 台阶可以从 i-1开始跳1阶，也可以从 i-2 开始跳2阶
+        解释：min(dp[i - 1], dp[i - 2]) 表示跳到 i 台阶的最小花费，因为跳到 i 台阶可以从 i-1开始跳1阶，也可以从 i-2 开始跳2阶
             + cost[i] 表示从 i 台阶开始往上跳需要的花费，不管是跳到 i+1 还是 i+2 都需要 cost[i] 费用
 
      理解到达顶楼：
@@ -51,6 +51,33 @@ public class Solution_746 {
             else b = Math.min(a, b) + cost[i];
         }
         return Math.min(a, b);
+    }
+
+    /*
+    动态规划思路二：
+        cost[i] 是从楼梯第 i 个台阶向上爬需要支付的费用。一旦你支付此费用，即可选择向上爬一个或者两个台阶
+
+     dp数组定义：dp[i] 表示爬到第 i 阶楼梯的最小花费
+     dp 数据初始值：
+        dp[0] = 0;
+        dp[1] = 0;
+        dp[2] = Math.min(cost[1], cost[0]);
+     状态转移方程：
+        dp[i - 1] + cost[i - 1]：爬到第 i - 1 阶后，再向上爬一阶到 i 阶，花费是 cost[i - 1]
+        dp[i - 2] + cost[i - 2]: 爬到第 i - 2 阶后，再向上爬两阶到 i 阶，花费是 cost[i - 2]
+        最小花费就是取二者最小值
+        dp[i] = Math.min(dp[i - 1] + cost[i - 1]), dp[i - 2] + cost[i - 2]);
+     */
+    public int minCostClimbingStairs3(int[] cost) {
+        if (cost.length <= 2) return Math.min(cost[0], cost[1]);
+
+        int[] dp = new int[cost.length + 1];
+        dp[1] = 0;
+        dp[2] = Math.min(cost[0], cost[1]);
+        for (int i = 3; i <= cost.length; i++) {
+            dp[i] = Math.min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2]);
+        }
+        return dp[cost.length];
     }
 
 
