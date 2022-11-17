@@ -19,16 +19,21 @@ public class Solution_53 {
      1. 当 dp[i - 1] > 0, dp [i] = dp[i - 1] + nums[i];
      2. 当 dp [i -1] <= 0时，此时 dp[i] 如果还接在 dp[i-1] 后面，最大子序和也不会比他本身大，所以 dp[i] = nums[i];
      题目求最大子序和，所以我们需要遍历 dp 数组，找出最大的一个值。
+
+     空间优化:
+     使用一个 pre 变量来表示 dp[i - 1] 的值
+     使用一个 res 变量来表示最终结果值
+     初始时，pre = nums[0]，res = nums[0];
+     从 1 开始遍历数组
+        1. 第一步先更新 pre 的值(再本轮循环中，pre当前值是 dp[i - 1]，更新后的值是 dp[i])
+            pre = Math.max(nums[i], pre + nums[i]);
+        2. 更新 res 结果值： res = Math.max(res, pre);
      */
-    public static int maxSubArray(int[] nums) {
+    public int maxSubArray(int[] nums) {
         int pre = nums[0];
-        int res = pre;
+        int res = nums[0];
         for (int i = 1; i < nums.length; i++) {
-            if (pre > 0) {
-                pre = pre + nums[i];
-            } else {
-                pre = nums[i];
-            }
+            pre = Math.max(nums[i], pre + nums[i]);
             res = Math.max(res, pre);
         }
         return res;
