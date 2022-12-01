@@ -33,7 +33,7 @@ public class Solution_329 {
                 // 如果 (i, j) 坐标还没求出最长递增路径，递归求出
                 if (dp[i][j] == 0) {
                     // 更新出整个矩阵中的最长递增路径值 res
-                    res = Math.max(res, dfs(matrix, dp, i, j));
+                    res = Math.max(res, dfs2(matrix, dp, i, j));
                 }
             }
         }
@@ -84,12 +84,10 @@ public class Solution_329 {
         if (dp[r][c] != 0) return dp[r][c];
         int maxLen = 0;
         for (int[] dir : dirs) {
-            int nextI = dir[0]; // (1, -1, 0, 0)
-            int nextJ = dir[1]; // (0, 0, 1, -1)
-            if (0 <= r + nextI && r + nextI < matrix.length
-                    && 0 <= c + nextJ && c + nextJ < matrix[0].length
-                    && matrix[r + nextI][c + nextJ] > matrix[r][c]) {
-                maxLen = Math.max(maxLen, dfs2(matrix, dp, r + nextI, c + nextJ));
+            int nextR = dir[0] + r;
+            int nextC = dir[1] + c;
+            if (inArea(matrix, nextR, nextC) && matrix[nextR][nextC] > matrix[r][c]) {
+                maxLen = Math.max(maxLen, dfs2(matrix, dp, nextR, nextC));
             }
         }
         dp[r][c] = maxLen + 1;
@@ -99,7 +97,7 @@ public class Solution_329 {
 
     // 判断坐标(r, c) 是否在矩阵中
     public boolean inArea(int[][] matrix, int r, int c) {
-        return 0 <= r && r < matrix.length && 0 <= c && c <= matrix[0].length;
+        return 0 <= r && r < matrix.length && 0 <= c && c < matrix[0].length;
     }
 
     public static void main(String[] args) {
