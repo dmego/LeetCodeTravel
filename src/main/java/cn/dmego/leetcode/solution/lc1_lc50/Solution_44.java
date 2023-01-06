@@ -22,12 +22,11 @@ public class Solution_44 {
      状态转移方程：
         当 s.charAt(i - 1) == p.charAt(j - 1) || p.charAt(j - 1) == '?', dp[i][j] = dp[i - 1][j - 1]
         当 p.charAt(j - 1) == '*' 时，
-            当 s.charAt(i - 1) == p.charAt(j - 2) || p.charAt(j - 2) == '.' 时，
-                1.'*' 位置可以删除，所以 dp[i][j] = dp[i][j - 1]
-                2.因为 '*' 能匹配任意字符串，所以 可以看 s[0, i-2] 与 p[0, j-1] 是否匹配，所以 dp[i][j] = dp[i - 1][j]
-            当 s.charAt(i - 1) != p.charAt(j - 2) 时，同上，dp[i][j] = dp[i - 1][j]
-            所以 dp[i][j] = dp[i][j - 1] || dp[i - 1][j]
-
+            1. 这个 * 不匹配任何字符串，相当于在 p 中去掉 p[j-1], 此时，dp[i][j] = dp[i][j - 1]
+            2. 这个 * 匹配任意字符串，例如 s = "abcd" p = '*' 那么 p 不仅能与 s[i-1]匹配，还能匹配 s[i-1]前面的任何字符串
+                从状态转移规则上来表示：dp[i][j] = dp[i - 1][j], 也就是说看 s[0, i - 2] 与 p[0, j - 1] 是否匹配即可
+                因为 s[0, i - 2] 与 p[0, j - 1] 匹配上了，s[0, i - 1] 与 p[0, j - 1] 一定能匹配上.
+            综和两种情况：dp[i][j] = dp[i][j - 1] || dp[i - 1][j]
      */
     public boolean isMatch(String s, String p) {
         int m = s.length();
@@ -52,8 +51,8 @@ public class Solution_44 {
 
     public static void main(String[] args) {
 
-        String s = "acdcb";
-        String p = "a*c?b";
+        String s = "ho";
+        String p = "ho**";
         //String p = "*a*b";
         Solution_44 solution = new Solution_44();
         boolean match = solution.isMatch(s, p);
