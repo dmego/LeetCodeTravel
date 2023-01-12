@@ -7,6 +7,38 @@ package cn.dmego.leetcode.solution.lc1_lc50;
  */
 public class Solution_14 {
 
+    /**
+     纵向扫描+横向遍历
+     index 表示纵向扫描时，需要比较的字符下标。
+     取第一个字符为比较基准
+     */
+    public String longestCommonPrefixF(String[] strs) {
+        int index = 0;
+        String f = strs[0];
+        // 第一个字符如果为空，直接返回空串
+        if (f == null || f.length() == 0) return "";
+        // 纵向扫描
+        while (true) {
+            // 如果下标 index 已经到第一个字符 f 的末尾
+            if (index >= f.length()) {
+                // 直接返回当前的最长公共前缀
+                return f.substring(0, index);
+            }
+            // 取第一个字符 f 当前下标的字符 c
+            char c = f.charAt(index);
+            // 横向遍历每个字符串
+            for (int i = 1; i < strs.length; i++) {
+                String s = strs[i];
+                // 如果字符串为空，获取当前下标 index 处的字符不等于 c, 说明当前下标 index 已经不满足公共前缀要求
+                if (s == null || s.length() == 0 || index >= s.length() || s.charAt(index) != c) {
+                    // 直接返回当前的最长公共前缀
+                    return f.substring(0, index);
+                }
+            }
+            // 字符下标往后移动一位
+            index++;
+        }
+    }
 
     /**
      横向遍历：
