@@ -93,6 +93,46 @@ public class BM83 {
         }
     }
 
+
+    /**
+     - 将字符串 s 以空格进行分割，注意要保留首位空格，以及中间多余空格。使用 split(" ", -1)
+     - 从后往前遍历分割后的字符串数组，保证单词反序
+     - 对于每一个单词，从前往后遍历每个字符，进行大小写转换。
+     - 双层 for 循环，在第二层每次大小写转换完之后，将字符添加到 StringBuffer
+     - 在第二层结束后，第一层最后需要将空格添加回 StringBuffer
+     - 注意最后返回结果时，需要删除最后一个多余空格
+     */
+    public static String trans3(String s, int n) {
+        // limit 设置成负数，保证不会将字符串结尾空格丢弃
+        String[] vals = s.split(" ", -1);
+        StringBuilder buff = new StringBuilder();
+        for (int i = vals.length - 1; i >= 0; i--) {
+            String word = vals[i];
+            for (int j = 0; j < word.length(); j++) {
+                char c = word.charAt(j);
+                // 大写字母 ASCII 范围. [65, 90]
+                // 小写字母 ASCII 范围. [97, 122]
+                if (65 <= c && c <= 90) {
+                    c = (char) (c + 32);
+                } else if (97 <= c && c <= 122) {
+                    c = (char) (c - 32);
+                }
+                /*
+                int f = 'a' - 'A';
+                if ('A' <= c && c <= 'Z') {
+                    c = (char) (c + f);
+                } else if ('a' <= c && c <= 'z') {
+                    c = (char) (c - f);
+                }
+                */
+                buff.append(c);
+            }
+            buff.append(" ");
+        }
+        buff.deleteCharAt(buff.length() - 1);
+        return buff.toString();
+    }
+
     public static void main(String[] args) {
         String s = "h i ";
         BM83 bm = new BM83();

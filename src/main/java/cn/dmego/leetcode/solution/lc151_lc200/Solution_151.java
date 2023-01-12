@@ -15,6 +15,27 @@ import java.util.List;
 public class Solution_151 {
 
     /**
+     使用 s.trim() 去除首尾空格
+     使用 s.split("\\s+") 正则匹配连续空格，作为分隔符
+     从后往前遍历单词数组，实现翻转
+     将遍历到的字符串加到 StringBuffer
+     最后返回时注意要删除最后一个空格
+     */
+    public String reverseWordsF(String s) {
+        s = s.trim();
+        String[] vals = s.split("\\s+");
+        StringBuilder buff = new StringBuilder();
+        for (int i = vals.length - 1; i >= 0; i--) {
+            String val = vals[i];
+            buff.append(val).append(" ");
+        }
+        buff.deleteCharAt(buff.length() - 1);
+        return buff.toString();
+    }
+
+
+
+    /**
         使用 List 保存
      */
     public String reverseWords(String s) {
