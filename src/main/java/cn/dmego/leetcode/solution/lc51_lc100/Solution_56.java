@@ -58,6 +58,23 @@ public class Solution_56 {
         return result.toArray(new int[result.size()][]);
     }
 
+    public int[][] merge3(int[][] intervals) {
+        if (intervals.length <= 1) return intervals;
+        Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
+        int[] curr = intervals[0];
+        List<int[]> result = new ArrayList<>();
+        for (int i = 1; i < intervals.length; i++) {
+            if (curr[1] >= intervals[i][0] && curr[1] < intervals[i][1]) {
+                curr[1] = intervals[i][1];
+            } else if (curr[1] < intervals[i][0]) {
+                result.add(curr);
+                curr = intervals[i];
+            }
+        }
+        result.add(curr);
+        return result.toArray(new int[result.size()][2]);
+    }
+
     public static void main(String[] args) {
         int[][] intervals = new int[][]{{1,4},{2,3}};
         Solution_56 s = new Solution_56();
