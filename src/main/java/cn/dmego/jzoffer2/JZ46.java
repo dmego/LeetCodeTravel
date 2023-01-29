@@ -1,4 +1,4 @@
-package cn.dmego.offer2;
+package cn.dmego.jzoffer2;
 
 /**
  * 剑指 Offer 46. 把数字翻译成字符串

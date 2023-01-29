@@ -5,13 +5,51 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 字符串的排列
+ * [567] 字符串的排列
  * 给你两个字符串 s1 和 s2 ，写一个函数来判断 s2 是否包含 s1 的排列。如果是，返回 true ；否则，返回 false 。
  * @author dmego
  * @date 2021/12/21 01:02
  */
 public class Solution_567 {
 
+    /**
+     滑动窗口，同 438， 76 题
+     */
+    public boolean checkInclusion3(String s1, String s2) {
+        int left = 0, right = 0;
+        Map<Character,Integer> windows = new HashMap<>();
+        Map<Character,Integer> needs = new HashMap<>();
+        int needsCut = 0;
+        for (int i = 0; i < s1.length(); i++) {
+            needs.put(s1.charAt(i), needs.getOrDefault(s1.charAt(i), 0) + 1);
+        }
+        while (right < s2.length()) {
+            char c = s2.charAt(right);
+            right++;
+            if (needs.containsKey(c)) {
+                windows.put(c, windows.getOrDefault(c, 0) + 1);
+                if (needs.get(c).intValue() == windows.get(c).intValue()) {
+                    needsCut++;
+                }
+            }
+            // 当 right >= p.length() 时，固定窗口已经形成
+            if (right >= s1.length()) {
+                // 当 needsCut 值等于 needs.size() 时，说明此时窗口是一个满足条件的子串
+                if (needsCut == needs.size()) {
+                    return true;
+                }
+                c = s2.charAt(left);
+                left++;
+                if (needs.containsKey(c)) {
+                    if (needs.get(c).intValue() == windows.get(c).intValue()) {
+                        needsCut--;
+                    }
+                    windows.put(c, windows.getOrDefault(c, 0) - 1);
+                }
+            }
+        }
+        return false;
+    }
 
     public static boolean checkInclusion(String s1, String s2) {
         // 保证 s1 长度比 s2 小

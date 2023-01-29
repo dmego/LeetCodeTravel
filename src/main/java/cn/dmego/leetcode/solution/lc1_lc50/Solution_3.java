@@ -128,6 +128,32 @@ public class Solution_3 {
         return res;
     }
 
+    public int lengthOfLongestSubstring5(String s) {
+        if (s.length() <= 1) return s.length();
+        int left = 0, right = 0;
+        int len = 0;
+        // cache 用来记录当前窗口下的元素，cahce[i] 表示 i 字符 出现的次数，大于 1 说明重复
+        int[] cache = new int[128];
+        while (right < s.length()) {
+            char c = s.charAt(right);
+            right++;
+            cache[c]++;
+            // 只有 = 1 时，才去判断是否是最长子串，否则就需要移动 left 来去重
+            if (cache[c] == 1) {
+                if (right - left > len) {
+                    len = right - left;
+                }
+            } else {
+                while (cache[c] > 1) {
+                    char d = s.charAt(left);
+                    left++;
+                    cache[d]--;
+                }
+            }
+        }
+        return len;
+    }
+
 
     public static void main(String[] args) {
         String s = "pwwkew";
