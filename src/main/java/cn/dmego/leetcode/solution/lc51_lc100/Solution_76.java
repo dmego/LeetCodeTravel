@@ -96,6 +96,55 @@ public class Solution_76 {
         return len == Integer.MAX_VALUE ? "" : s.substring(start, start + len);
     }
 
+    /**
+     滑动窗口 + 数组
+     使用 数组 替代 hashMap
+     */
+    public String minWindow2(String s, String t) {
+        int left = 0, right = 0;
+        int start = 0, len = Integer.MAX_VALUE;
+        int[] windows = new int[128];
+        int[] needs = new int[128];
+        int needsCut = 0, needsLen = 0;
+        // 初始化 needs 数组
+        for (int i = 0; i < t.length(); i++) {
+            needs[t.charAt(i)]++;
+        }
+        // 初始化 needsLen 值，是 t 中所有字符去重的结果值
+        for (int need : needs) {
+            if (need != 0) {
+                needsLen++;
+            }
+        }
+        while (right < s.length()) {
+            char c = s.charAt(right);
+            right++;
+            // 说明字符 c 在 t 中
+            if (needs[c] != 0) {
+                windows[c]++;
+                if (needs[c] == windows[c]) {
+                    needsCut++;
+                }
+            }
+            // 找到一个结果子串，进行优化
+            while (needsCut == needsLen) {
+                if (right - left < len) {
+                    len = right - left;
+                    start = left;
+                }
+                c = s.charAt(left);
+                left++;
+                if (needs[c] != 0) {
+                    if (needs[c] == windows[c]) {
+                        needsCut--;
+                    }
+                    windows[c]--;
+                }
+            }
+        }
+        return len == Integer.MAX_VALUE ? "" : s.substring(start, start + len);
+    }
+
 
     public static void main(String[] args) {
         String s = "ADOBECODEBANC";
