@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- 运用你所掌握的数据结构，设计和实现一个 LRU (最近最少使用) 缓存机制 。
+ * [146] LRU 缓存
+ * 运用你所掌握的数据结构，设计和实现一个 LRU (最近最少使用) 缓存机制 。
  */
 public class Solution_146 {
 
@@ -58,11 +59,11 @@ public class Solution_146 {
             if (head == node && tail == node) {
                 head = tail = null;
             } else if (node == head) {
-                node.next.prev = null;
-                head = node.next;
+               head = head.next;
+               head.prev = null;
             } else if (node == tail) {
-                node.prev.next = null;
-                tail = node.prev;
+                tail = tail.prev;
+                tail.next = null;
             } else {
                 node.prev.next = node.next;
                 node.next.prev = node.prev;
@@ -118,7 +119,7 @@ public class Solution_146 {
                     // 删除队列最后一个记录
                     Node node = deque.removeLast();
                     // 删除map中对应的记录
-                    map.remove(node.value);
+                    map.remove(node.key);
                 }
                 Node node = new Node(key, value);
                 // 新记录添加到缓存头部，链表头部
