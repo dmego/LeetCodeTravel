@@ -1,7 +1,9 @@
 package cn.dmego.algorithm.sort;
 
-
-public class InsertSort {
+/**
+ * 选择排序
+ */
+public class SelectionSort {
 
 
     /*

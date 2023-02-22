@@ -20,6 +20,6 @@ public class SortTest {
         Integer[] array = generateRandomArray(10, 2, 40);
         System.out.println("before: " + Arrays.toString(array));
 
-        InsertSort insertSort = new InsertSort();
+        SelectionSort selectionSort = new SelectionSort();
     }
 }
