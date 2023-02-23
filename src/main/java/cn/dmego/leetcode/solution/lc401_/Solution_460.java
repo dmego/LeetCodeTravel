@@ -112,7 +112,7 @@ public class Solution_460 {
 
         // 判断链表是否为空
         public boolean isEmpty() {
-            return head == null && tail == null;
+            return size == 0;
         }
 
     }
@@ -121,15 +121,12 @@ public class Solution_460 {
 
         // 缓存容量
         private int capacity;
-
-        // 节点缓存 Map
-        private Map<Integer, Node> keyMap;
-
-        // 节点访问频次 Map
-        private Map<Integer, DoubleList> freqMap;
-
         // 当前缓存中，访问最小的频次
         private int minFreq;
+        // 节点缓存 Map
+        private Map<Integer, Node> keyMap;
+        // 节点访问频次 Map
+        private Map<Integer, DoubleList> freqMap;
 
         public LFUCache(int capacity) {
             this.capacity = capacity;
@@ -144,8 +141,12 @@ public class Solution_460 {
             if (!keyMap.containsKey(key)) return -1;
             // 从缓存中取出 node 节点
             Node node = keyMap.get(key);
+            // 将 node 从频次为 freq 的链表中移除
+            removeNodeFromOldList(node);
             // 更新 node 的访问频次
-            incrementFreq(node, false, node.value);
+            node.freq++;
+            // 将 node 添加到新频次的链表头部
+            addNodeToNewList(node);
             // 返回 key 对应的 value
             return node.value;
         }
@@ -156,87 +157,89 @@ public class Solution_460 {
             if (keyMap.containsKey(key)) {
                 // 从缓存中取出 node 节点
                 Node node = keyMap.get(key);
-                // 更新 node 节点的 value 值和 访问频次
-                incrementFreq(node, false, value);
-            } else {
-                // 如果缓存的容量已满
-                if (this.capacity == keyMap.size()) {
-                    //将缓存中最少使用且最久未使用的节点移除
-                    remoteMinFreqNode();
-                }
-                // 向缓存中添加一个新节点
-                Node node = new Node(key, value, 1);
-                keyMap.put(key, node);
-                incrementFreq(node, true, value);
-            }
-        }
-
-
-        // 更新某个节点的访问频次
-        private void incrementFreq(Node node, boolean isNewNode, int newValue) {
-            DoubleList list = getListFromFreqMap(node.freq);
-            // 如果是新节点
-            if (isNewNode) {
-                minFreq = 1;
-                list.addFirst(node);
-            } else {
-                // 否则 将 node 节点从 freqMap 中对应链表中删除
-                list.remove(node);
-                // 如果 list 为空，则从 freqMap 中删除
-                if (list.isEmpty()) {
-                    freqMap.remove(node.freq);
-                }
-                // 更新 node 的访问频次(当 node 为新增时，freq = 0，++ 后为 1)
+                // 将 node 从频次为 freq 的链表中移除
+                removeNodeFromOldList(node);
+                // 更新 node 的访问频次
                 node.freq++;
                 // 更新 node 的 value 值
-                node.value = newValue;
-                // 将 node 节点移动到 freqMap 中对应 key = freq + 1 的链表中(头部)
-                DoubleList newList = getListFromFreqMap(node.freq);
-                newList.addFirst(node);
-                // 如果 freqMap 中不存在 minFreq, 更新 minFreq 值为 minFreq + 1
-                // 这种情况是 更新的 freq 原来值 = minFreq
-                if (!freqMap.containsKey(minFreq)) {
-                    minFreq++;
+                node.value = value;
+                // 将 node 添加到新频次的链表头部
+                addNodeToNewList(node);
+            } else {
+                // 如果缓存的容量已满
+                if (capacity == keyMap.size()) {
+                    //将缓存中访问频次最小的节点移除
+                    removeMinFreqNode();
                 }
+                // 添加一个新节点到缓存中
+                addNewNodeToList(key, value);
             }
         }
 
         // 从 freqMap 中获取 freq 对应的 list, 如果不存在，就添加一个空 list 到 map 中
-        private DoubleList getListFromFreqMap(int freq) {
-            DoubleList list = freqMap.getOrDefault(freq, new DoubleList());
-            if (list.isEmpty()) {
+        public DoubleList getListFromFreqMap(int freq) {
+            if (freqMap.containsKey(freq)) {
+                return freqMap.get(freq);
+            } else {
+                DoubleList list = new DoubleList();
                 freqMap.put(freq, list);
+                return list;
             }
-            return list;
+        }
+
+        // 将 node 从 freq 对应的链表中删除
+        public void removeNodeFromOldList(Node node) {
+            DoubleList list = getListFromFreqMap(node.freq);
+            list.remove(node);
+        }
+
+        // 将 node 添加到 freq 对应的链表的头部
+        public void addNodeToNewList(Node node) {
+            DoubleList list = getListFromFreqMap(node.freq);
+            list.addFirst(node);
+            // 如果 freqMap 中不存在 minFreq, 更新 minFreq 值为 minFreq + 1
+            // 这种情况是 更新的 freq 原来值 = minFreq
+            if (freqMap.get(minFreq).isEmpty()) {
+                minFreq++;
+            }
+        }
+
+        // 添加一个新节点到缓存中
+        public void addNewNodeToList(int key, int value) {
+            // 新建一个节点，访问次数 freq = 1
+            Node node = new Node(key, value, 1);
+            // 添加到 keyMap 中
+            keyMap.put(key, node);
+            // 重置当前的最小访问次数 minFreq = 1
+            minFreq = 1;
+            // 将节点添加到 freqMap 对应链表的头部
+            DoubleList list = getListFromFreqMap(node.freq);
+            list.addFirst(node);
         }
 
         // 删除缓存中访问频次最小，且最久未访问的节点
-        private void remoteMinFreqNode() {
+        public void removeMinFreqNode() {
             // 取出 minFreq 对应的 list
-            DoubleList list = freqMap.get(minFreq);
+            DoubleList list = getListFromFreqMap(minFreq);
             // 删除 list 最后一个结点
             Node node = list.removeLast();
             // 删除 keyMap 中对应的节点
             keyMap.remove(node.key);
-            // 如果 list 为空，则从 freqMap 中删除
-            if (list.isEmpty()) {
-                freqMap.remove(minFreq);
-            }
         }
     }
 
     public static void main(String[] args) {
-        LFUCache cache = new LFUCache(2);
-        cache.put(1, 1);
-        cache.put(2, 2);
-        cache.get(1);
-        cache.put(3, 3);
-        cache.get(2);
-        cache.get(3);
-        cache.put(4, 4);
-        cache.get(1);
-        cache.get(3);
-        cache.get(4);
+        LFUCache lfu = new LFUCache(2);
+        lfu.put(1, 1);
+        lfu.put(2, 2);
+        System.out.print(lfu.get(1) + " ");
+        lfu.put(3, 3);
+        System.out.print(lfu.get(2) + " ");
+        System.out.print(lfu.get(3) + " ");
+        lfu.put(4, 4);
+        System.out.print(lfu.get(1) + " ");
+        System.out.print(lfu.get(3) + " ");
+        System.out.print(lfu.get(4) + " ");
     }
 
 }
