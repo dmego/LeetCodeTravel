@@ -61,10 +61,4 @@ public class Solution_169 {
         }
         return cand;
     }
-
-
-
-    public static void main(String[] args) {
-
-    }
 }
