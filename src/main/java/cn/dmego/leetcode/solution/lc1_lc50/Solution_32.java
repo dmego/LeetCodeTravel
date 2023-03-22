@@ -43,6 +43,38 @@ public class Solution_32 {
         return res;
     }
 
+    /**
+     直接使用 栈来解
+     */
+    public int longestValidParentheses2(String s) {
+        if (s.length() < 2) return 0;
+        // 栈中存储左括号的下标（栈底存储的是有效括号的起始下标）
+        Deque<Integer> deque = new ArrayDeque<>();
+        // 初始化入队一个元素，表示栈底元素起始下标
+        deque.push(-1);
+        int res = 0;
+        for (int i = 0; i < s.length(); i++) {
+            // 如果是左括号，直接入栈
+            if (s.charAt(i) == '(') {
+                deque.push(i);
+            } else {
+                // 否则是右括号，直接出栈
+                deque.pop();
+                // 如果出栈后，栈为空，说明没有与该右括号对应的左括号，构不成有效(因为一开始入栈了一个 -1)
+                if (deque.isEmpty()) {
+                    // 将当前下标入栈，作为栈底，也就下一个有效括号的起始下标
+                    deque.push(i);
+                } else {
+                    // 如果栈不为空，那么以下标 i 结尾的有效括号长度就是 (i - 栈底下标)
+                    // 最长有效括号，求最大值即可
+                    res = Math.max(res, i - deque.peek());
+                }
+            }
+        }
+        return res;
+    }
+
+
     public static void main(String[] args) {
         Solution_32 solution = new Solution_32();
         String s1 = ")()(())(";
