@@ -14,3 +14,6 @@
 - [剑指 Offer 44. 连续子数组的最大和](Offer_44.java)
 - [剑指 Offer 46. 把数字翻译成字符串](Offer_46.java)
 - [剑指 Offer 48. 最长不含重复字符的子字符串](Offer_48.java)
+- [剑指 Offer 54. 二叉搜索树的第k大节点](Offer_54.java)
+- [剑指 Offer 55 - I. 二叉树的深度](Offer_55_I.java)
+- [剑指 Offer 55 - II. 平衡二叉树](Offer_55_II.java)
