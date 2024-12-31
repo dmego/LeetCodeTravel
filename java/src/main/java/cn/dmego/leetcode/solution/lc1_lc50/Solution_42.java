@@ -118,7 +118,7 @@ public class Solution_42 {
                 winter = rMax - height[right];
                 right--;
             }
-            if (winter > 0 ) res += winter;
+            if (winter > 0) res += winter;
         }
         return res;
     }

@@ -41,6 +41,7 @@ public class Solution_94 {
         if (root == null) return result;
         Deque<TreeNode> deque = new ArrayDeque<>();
         while (root != null || !deque.isEmpty()) {
+            // 先将 root 的所有左结点入栈
             while (root != null) {
                 deque.push(root);
                 root = root.left;
